@@ -40,6 +40,8 @@ module "<redis-cache-name>" {
     maxmemory_delta    = <2>
     maxmemory_policy   = "allkeys-lru"
   }
+  # subnet_id works only for premium tier. For basic and standard you can use private endpoints
+  subnet_id = <subnet_id>
   azure_ad_groups = ["group id 1","group id 2"]
   firewall_rules = {
     rule1 = {

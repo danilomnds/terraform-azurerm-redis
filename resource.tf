@@ -27,19 +27,18 @@ resource "azurerm_redis_cache" "redis" {
   dynamic "redis_configuration" {
     for_each = var.redis_configuration != null ? [var.redis_configuration] : []
     content {
-      day_of_week                                       = redis_configuration.value.day_of_week
-      aof_backup_enabled                                = lookup(redis_configuration.value, "aof_backup_enabled", false)
-      aof_backup_enabledaof_storage_connection_string_0 = lookup(redis_configuration.value, "aof_backup_enabledaof_storage_connection_string_0", null)
-      aof_backup_enabledaof_storage_connection_string_1 = lookup(redis_configuration.value, "aof_backup_enabledaof_storage_connection_string_1", null)
-      enable_authentication                             = lookup(redis_configuration.value, "enable_authentication ", true)
-      maxmemory_reserved                                = lookup(redis_configuration.value, "maxmemory_reserved", null)
-      maxmemory_delta                                   = lookup(redis_configuration.value, "maxmemory_delta", null)
-      maxmemory_policy                                  = lookup(redis_configuration.value, "maxmemory_policy", "volatile-lru")
-      maxfragmentationmemory_reserved                   = lookup(redis_configuration.value, "maxfragmentationmemory_reserved", null)
-      rdb_backup_enabled                                = lookup(redis_configuration.value, "rdb_backup_enabled", false)
-      rdb_backup_frequency                              = lookup(redis_configuration.value, "rdb_backup_frequency ", null)
-      rdb_backup_max_snapshot_count                     = lookup(redis_configuration.value, "rdb_backup_max_snapshot_count", null)
-      rdb_storage_connection_string                     = lookup(redis_configuration.value, "rdb_storage_connection_string", null)
+      aof_backup_enabled              = lookup(redis_configuration.value, "aof_backup_enabled", false)
+      aof_storage_connection_string_0 = lookup(redis_configuration.value, "aof_storage_connection_string_0", null)
+      aof_storage_connection_string_1 = lookup(redis_configuration.value, "aof_storage_connection_string_1", null)
+      enable_authentication           = lookup(redis_configuration.value, "enable_authentication ", true)
+      maxmemory_reserved              = lookup(redis_configuration.value, "maxmemory_reserved", null)
+      maxmemory_delta                 = lookup(redis_configuration.value, "maxmemory_delta", null)
+      maxmemory_policy                = lookup(redis_configuration.value, "maxmemory_policy", "volatile-lru")
+      maxfragmentationmemory_reserved = lookup(redis_configuration.value, "maxfragmentationmemory_reserved", null)
+      rdb_backup_enabled              = lookup(redis_configuration.value, "rdb_backup_enabled", false)
+      rdb_backup_frequency            = lookup(redis_configuration.value, "rdb_backup_frequency ", null)
+      rdb_backup_max_snapshot_count   = lookup(redis_configuration.value, "rdb_backup_max_snapshot_count", null)
+      rdb_storage_connection_string   = lookup(redis_configuration.value, "rdb_storage_connection_string", null)
     }
   }
   tags = local.tags
@@ -62,6 +61,6 @@ resource "azurerm_redis_firewall_rule" "redis_firewall" {
 resource "azurerm_role_assignment" "redis_contributor" {
   for_each             = var.azure_ad_groups != [] ? toset(var.azure_ad_groups) : []
   scope                = azurerm_redis_cache.redis.id
-  role_definition_name = "Redis Cache Contributor"
+  role_definition_name = "Redis Cache Contributor Custom"
   principal_id         = each.value
 }

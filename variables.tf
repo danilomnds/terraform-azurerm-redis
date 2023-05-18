@@ -24,12 +24,10 @@ variable "sku_name" {
   default = "Basic"
 }
 
-/* check the default
 variable "enable_non_ssl_port" {
   type = bool
   default = false
 }
-*/
 
 variable "identity" {
   description = "Specifies the type of Managed Service Identity that should be configured on this resource"
@@ -123,7 +121,8 @@ variable "zones" {
 }
 
 variable "firewall_rules" {
-  type = map(map(string))
+  type    = map(map(string))
+  default = {}
 }
 
 variable "azure_ad_groups" {
