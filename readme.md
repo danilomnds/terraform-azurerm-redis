@@ -9,7 +9,7 @@ Module developed to standardize the Azure Cache for Redis creation.
 
 | Module Version | Terraform Version | AzureRM Version |
 |----------------|-------------------| --------------- |
-| v1.0.0         | v1.4.6            | 3.56.0          |
+| v1.0.0         | v1.5.0            | 3.61.0          |
 
 ## Specifying a version
 

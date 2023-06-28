@@ -42,6 +42,7 @@ resource "azurerm_redis_cache" "redis" {
     }
   }
   tags = local.tags
+  zones = var.zones
   lifecycle {
     ignore_changes = [
       tags["create_date"]
