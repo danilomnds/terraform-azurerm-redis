@@ -2,11 +2,11 @@ variable "name" {
   type = string
 }
 
-variable "resource_group_name" {
+variable "location" {
   type = string
 }
 
-variable "location" {
+variable "resource_group_name" {
   type = string
 }
 
@@ -24,8 +24,13 @@ variable "sku_name" {
   default = "Basic"
 }
 
-variable "enable_non_ssl_port" {
-  type = bool
+variable "access_keys_authentication_enabled" {
+  type    = bool
+  default = true
+}
+
+variable "non_ssl_port_enabled" {
+  type    = bool
   default = false
 }
 
@@ -40,7 +45,7 @@ variable "identity" {
 
 variable "minimum_tls_version" {
   type    = string
-  default = "1.0"
+  default = "1.2"
 }
 
 variable "patch_schedule" {
@@ -64,35 +69,39 @@ variable "public_network_access_enabled" {
 
 variable "redis_configuration" {
   type = object({
-    aof_backup_enabled              = optional(bool)
-    aof_storage_connection_string_0 = optional(string)
-    aof_storage_connection_string_1 = optional(string)
-    enable_authentication           = optional(bool)
-    maxmemory_reserved              = optional(number)
-    maxmemory_delta                 = optional(number)
-    maxmemory_policy                = optional(string)
-    maxfragmentationmemory_reserved = optional(number)
-    rdb_backup_enabled              = optional(bool)
-    rdb_backup_frequency            = optional(number)
-    rdb_backup_max_snapshot_count   = optional(number)
-    rdb_storage_connection_string   = optional(string)
+    aof_backup_enabled                      = optional(bool)
+    aof_storage_connection_string_0         = optional(string)
+    aof_storage_connection_string_1         = optional(string)
+    authentication_enabled                  = optional(bool)
+    active_directory_authentication_enabled = optional(bool)
+    maxmemory_reserved                      = optional(number)
+    maxmemory_delta                         = optional(number)
+    maxmemory_policy                        = optional(string)
+    data_persistence_authentication_method  = optional(string)
+    maxfragmentationmemory_reserved         = optional(number)
+    rdb_backup_enabled                      = optional(bool)
+    rdb_backup_frequency                    = optional(number)
+    rdb_backup_max_snapshot_count           = optional(number)
+    rdb_storage_connection_string           = optional(string)
+    storage_account_subscription_id         = optional(string)
+    notify_keyspace_events                  = optional(string)
   })
   default = null
 }
 
 variable "replicas_per_master" {
   type    = number
-  default = null
+  default = 1
 }
 
 variable "replicas_per_primary" {
   type    = number
-  default = null
+  default = 1
 }
 
 variable "redis_version" {
   type    = number
-  default = null
+  default = 6
 }
 
 variable "tenant_settings" {
@@ -121,8 +130,12 @@ variable "zones" {
 }
 
 variable "firewall_rules" {
-  type    = map(map(string))
-  default = {}
+  type = list(object({
+    name     = string
+    start_ip = string
+    end_ip   = string
+  }))
+  default = []
 }
 
 variable "azure_ad_groups" {
